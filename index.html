@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <title>【2026最新】OpenClaw配置教程：一键接入AI大模型API中转站 | 简易API</title>
+    <meta name="description" content="2026年最新OpenClaw小白保姆级配置教程！教你如何修改openclaw.json，轻松接入第三方AI大模型API中转站。稳定使用Claude 4.5、GPT-4o等接口，完美替代官方昂贵API，国内直连，低成本高效开发。">
+    <meta name="keywords" content="OpenClaw配置教程, OpenClaw, API中转站, AI大模型API, 免费API接口, ChatGPT API, Claude API, Deepseek API, openclaw.json配置">
+    <meta property="og:title" content="【2026最新】OpenClaw配置教程：一键接入AI大模型API中转站">
+    <meta property="og:description" content="2026年最新OpenClaw小白保姆级配置教程！教你如何修改配置接入第三方AI大模型API中转站，稳定使用Claude 4.5、GPT-4o等接口。">
+    <meta property="og:url" content="https://jeniya.chat/">
+    <meta property="twitter:title" content="【2026最新】OpenClaw配置教程：一键接入AI大模型API中转站">
+    <meta property="twitter:description" content="2026年最新OpenClaw小白保姆级配置教程！教你如何修改配置接入第三方AI大模型API中转站，稳定使用Claude 4.5、GPT-4o等接口。">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta charSet="utf-8" />
+    <meta http-equiv='content-language' content='zh-CN'>
+    <link rel="icon" href="/openai.png" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #1a1a1a;
+            color: #fff;
+            overflow-x: hidden;
+        }
+        .container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .content {
+            text-align: center;
+            max-width: 900px;
+        }
+        h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            background: -webkit-linear-gradient(45deg, var(--color-1), var(--color-2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        p {
+            font-size: 20px;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        .button {
+            display: inline-block;
+            padding: 15px 30px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 24px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+        .button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(0, 123, 255, 0.5);
+        }
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--color-1), var(--color-2));
+            z-index: -1;
+            opacity: 0.8;
+        }
+        .arrow-down {
+            position: absolute;
+            bottom: 20px;
+            cursor: pointer;
+            font-size: 32px;
+            color: #fff;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        /* New Section Styles */
+        .markdown-content {
+            padding: 40px;
+            background-color: #1e1e1e;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+            border-radius: 10px;
+            margin: 20px auto;
+            max-width: 900px;
+            color: #e0e0e0;
+        }
+        .markdown-content h2 {
+            font-size: 32px;
+            margin-top: 30px;
+            color: #fff;
+            border-bottom: 2px solid #444;
+            padding-bottom: 10px;
+        }
+        .markdown-content h3 {
+            font-size: 24px;
+            color: #4FE2B1;
+        }
+        .markdown-content p, .markdown-content li {
+            font-size: 16px;
+            line-height: 1.8;
+        }
+        pre {
+            background-color: #2d2d2d;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            border: 1px solid #444;
+        }
+        code {
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            color: #a6e22e;
+        }
+        p code, li code {
+            background-color: #333;
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #ff7f00;
+        }
+
+        /* Highlight Style */
+        .maxfly-highlight {
+            font-weight: bold;
+            background-color: rgba(255, 215, 0, 0.4);
+            color: #ffffff;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+            padding: 2px 8px;
+            border-radius: 4px;
+            box-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+            display: inline-block;
+            transform: scale(1.02);
+        }
+        a.maxfly-highlight {
+            text-decoration: none;
+            color: #ffffff;
+            transition: all 0.3s ease;
+        }
+        a.maxfly-highlight:hover {
+            background-color: rgba(255, 215, 0, 0.8);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+            transform: scale(1.05);
+        }
+
+        /* Section Styles */
+        .section-container {
+            margin: 30px 0;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
+        .section-1 { background-color: rgba(0, 136, 204, 0.2); border-left: 5px solid #0088cc; }
+        .section-2 { background-color: rgba(0, 160, 176, 0.2); border-left: 5px solid #00a0b0; }
+        .section-3 { background-color: rgba(106, 90, 205, 0.2); border-left: 5px solid #6a5acd; }
+        .section-4 { background-color: rgba(255, 140, 0, 0.2); border-left: 5px solid #ff8c00; }
+        .section-5 { background-color: rgba(153, 50, 204, 0.2); border-left: 5px solid #9932cc; }
+
+        .call-to-action {
+            background: linear-gradient(45deg, #ff0080, #7928ca);
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+            margin: 30px 0;
+        }
+
+        /* Mobile Styles */
+        @media screen and (max-width: 767px) {
+            .container { padding-top: 100px; padding-bottom: 20px; }
+            h1 { font-size: 32px; }
+            p { font-size: 16px; }
+            .button { font-size: 18px; padding: 10px 20px; }
+            .markdown-content { padding: 15px; }
+            .markdown-content h2 { font-size: 24px; }
+            .arrow-down { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="background"></div>
+    <div class="container">
+        <div class="content">
+            <h1>🚀 2026最新 OpenClaw 配置教程</h1>
+            <h2>小白保姆级：一键接入第三方 AI大模型API中转站</h2>
+            <p>告别官方昂贵且不稳定的 API！只需修改一个配置文件，让你的 OpenClaw 默认使用 <strong>Claude 4.5、GPT-4o、Deepseek</strong> 等高性价比模型。</p>
+            
+            <a href="https://jeniya.chat/" target="_blank" class="button">前往简易API获取中转密钥</a>
+            
+            <h3 style="margin-top: 30px; color: #eee;">教程最新更新时间：<strong id="curdate"></strong></h3>
+        </div>
+        <div class="arrow-down" onclick="scrollToContent()">⬇️ 向下滚动查看详细教程</div>
+    </div>
+
+    <!-- 教程正文内容 -->
+    <section class="markdown-content" id="more-content">
+
+        <blockquote>
+            <p><strong>适用版本：</strong>2026.2.6 及之后的 OpenClaw（参考仓库 openclaw/openclaw）<br>
+            <strong>配置难度：</strong>⭐（全流程只需修改一个 JSON 文件）<br>
+            <strong>核心场景：</strong>你有一个“API中转站”服务，想让 OpenClaw 默认用它的模型，而不是原路直连官方。</p>
+        </blockquote>
+
+        <div class="section-container section-1">
+            <h2>📚 一、这篇教程会帮你做到什么？</h2>
+            <p>按照本教程，你会完成：</p>
+            <ul>
+                <li>将 <strong>第三方 OpenAI 兼容接口</strong> 完美接入到 OpenClaw。</li>
+                <li>让主路由默认使用中转站的某个强大模型（例如：<code>claude-opus-4-5-20261101-thinking</code>）。</li>
+                <li>全流程只改一个核心文件：<code>~/.openclaw/openclaw.json</code></li>
+            </ul>
+            <h3>🧐 原理图解</h3>
+            <pre><code>你（用户） ──> OpenClaw 主程序
+     ├─（❌ 原路：官方 OpenAI，太贵/国内无法直连）
+     └─（✅ 新路：配置简易API等第三方中转平台）
+                    ↓
+          Claude 4.5 / GPT-4o / Deepseek 等模型</code></pre>
+        </div>
+
+        <div class="section-container section-2">
+            <h2>🛠️ 二、你要提前准备的三样东西</h2>
+            <p>在开始配置前，请前往你的 <strong>AI大模型API中转站</strong> 后台，准备好下面 3 个核心信息。如果你还没有中转平台，强烈推荐注册 <a href="https://jeniya.chat/" target="_blank" class="maxfly-highlight">简易API平台</a>，国内直连，注册即送额度！</p>
+            
+            <ol>
+                <li><strong>API Base URL（接口地址）</strong>
+                    <br>示例：<code>https://api.jeniya.chat/v1</code> （⚠️ 重要：最后必须带 <code>/v1</code>）
+                </li>
+                <li><strong>API Key（密钥）</strong>
+                    <br>示例：<code>sk-abc123456...</code> （这是你的资产凭证，请妥善保管）
+                </li>
+                <li><strong>Model ID（模型 ID）</strong>
+                    <br>示例：<code>claude-opus-4-5-20261101-thinking</code> （必须和平台提供的一字不差）
+                </li>
+            </ol>
+            
+            <div class="call-to-action">
+                <h3 style="color: white; margin-top: 0;">还没有高性价比的 API Key？</h3>
+                <a href="https://jeniya.chat/" target="_blank" class="button" style="background-color: #fff; color: #ff0080;">立即注册简易API获取</a>
+            </div>
+        </div>
+
+        <div class="section-container section-3">
+            <h2>💾 三、先备份配置（出错能秒回滚，三系统通用）</h2>
+            <p><strong>这一步绝对不能跳过！</strong>万一后面 JSON 改坏了，一行命令就能恢复。</p>
+            
+            <h3>macOS / Linux：</h3>
+            <pre><code>cd ~/.openclaw
+
+# 备份当前配置
+cp openclaw.json openclaw.json.bak
+
+# 如果改坏了，恢复备份
+cp openclaw.json.bak openclaw.json</code></pre>
+
+            <h3>Windows PowerShell：</h3>
+            <pre><code>cd "$env:USERPROFILE\.openclaw"
+
+# 备份当前配置
+Copy-Item openclaw.json openclaw.json.bak -Force
+
+# 如果改坏了，恢复备份
+Copy-Item openclaw.json.bak openclaw.json -Force</code></pre>
+        </div>
+
+        <div class="section-container section-4">
+            <h2>✍️ 四、修改核心配置（只需改 3 处）</h2>
+            <p>请用 VS Code、Sublime Text 或 Cursor 编辑 <code>openclaw.json</code> 文件。</p>
+            
+            <h3>📍 第一处：配置 API Key（推荐写在 env，更安全）</h3>
+            <p>在文件最上方，找到 <code>"env": { ... }</code> 这一块，如果没有就加上：</p>
+            <pre><code>  // ... 前面是 meta, wizard 等 ...
+
+  "env": {
+    // 👇【新增这一行】名字自己起（比如 MY_API_KEY），后面填你的 sk-密钥
+    "MY_API_KEY": "sk-xxxxxxxxxxxxxxxxxxxxxxxx"
+  },
+
+  // ...</code></pre>
+
+            <h3>📍 第二处：注册第三方服务商（models.providers）</h3>
+            <p>在 <code>"providers": { ... }</code> 里面，新增你自己的中转配置，例如叫 <code>zhongzhuan</code>：</p>
+            <pre><code>  "models": {
+    "mode": "merge",
+    "providers": {
+
+      // 👇【从这里开始新增】===
+      "zhongzhuan": {
+        // 1. 【必须修改】你的中转地址，记得带 /v1
+        "baseUrl": "https://api.jeniya.chat/v1",
+
+        // 2. 引用上面 env 里设置的 Key。📍注意是 ${MY_API_KEY} 格式！
+        "apiKey": "${MY_API_KEY}",
+
+        // 3. 固定写法，表示兼容 OpenAI 协议
+        "api": "openai-completions",
+
+        // 4. 这里列出你想用的模型
+        "models": [
+          {
+            // 【必须修改】模型 ID：和中转平台显示的一模一样
+            "id": "claude-opus-4-5-20261101-thinking",
+            "name": "Claude 4.5 Thinking (简易API中转)",
+            "input": ["text"],
+            "contextWindow": 200000,
+            "maxTokens": 8192
+          },
+          {
+            // 【可选】如果有第二个模型，可以继续加...
+            "id": "claude-opus-4-6-20260203",
+            "name": "Claude 4.6 (备用)",
+            "input": ["text"],
+            "contextWindow": 200000,
+            "maxTokens": 8192
+          }
+        ]
+      }
+      // 👆【新增结束】===
+
+    }
+  },</code></pre>
+
+            <h3>📍 第三处：把主路由切过去（agents.defaults）</h3>
+            <p>找到 <code>agents.defaults</code>，把 <code>primary</code> 改成你的 <strong>provider名字/模型ID</strong>：</p>
+            <pre><code>  "agents": {
+    "defaults": {
+      "model": {
+        // 👇【修改这一行】格式是： "provider名字/模型ID"
+        "primary": "zhongzhuan/claude-opus-4-5-20261101-thinking"
+      },
+      // ... 其他原有配置不要动 ...
+    }
+  }</code></pre>
+        </div>
+
+        <div class="section-container section-5">
+            <h2>🔄 五、重启 / 重载 OpenClaw，让配置生效</h2>
+            <p>修改完配置后，需要重新加载。不同系统方式不同：</p>
+            
+            <h3>macOS（官方推荐方式）</h3>
+            <pre><code># 强制重启网关服务
+launchctl kickstart -k gui/$(id -u)/ai.openclaw.gateway</code></pre>
+            
+            <h3>Linux / Windows</h3>
+            <p>根据你最初的安装方式（docker、systemd、手动运行），用“先停掉旧进程 → 再重新启动”的方式重启即可。</p>
+            
+            <p>重启后，用命令检查状态：</p>
+            <pre><code>openclaw status --deep</code></pre>
+            <p>如果输出里看到 <code>default claude-opus-4-5-20261101-thinking</code>，恭喜你配置成功了！🎉</p>
+        </div>
+
+        <div class="section-container section-1">
+            <h2>❓ 六、常见问题（Q&A）</h2>
+            
+            <h3>Q1：保存时编辑器报错（JSON Error）怎么办？</h3>
+            <p>99% 是逗号问题。列表 <code>[]</code> 或对象 <code>{}</code> 的最后一项后面<strong>不能有逗号</strong>；两项之间<strong>必须有逗号</strong>。建议使用在线 JSON 校验工具检查。</p>
+
+            <h3>Q2：为什么配置了没反应？</h3>
+            <ul>
+                <li>检查 <code>baseUrl</code> 后面是不是漏了 <code>/v1</code>（如：<code>https://api.jeniya.chat/v1</code>）。</li>
+                <li>检查 <code>apiKey</code> 里的环境变量名是否和 <code>env</code> 里写的一模一样。</li>
+            </ul>
+
+            <h3>Q3：想换平台怎么办？</h3>
+            <p>非常简单！以后你要换其他 API中转站，只需要修改 <code>openclaw.json</code> 里的 3 个地方：换 baseUrl、换 apiKey、换 models 里的模型 ID。强烈推荐使用稳定可靠的 <a href="https://jeniya.chat/" target="_blank" class="maxfly-highlight">简易API</a>，一站式解决所有大模型接口需求。</p>
+        </div>
+
+    </section>
+
+    <script>
+        // 动态背景颜色生成
+        const colors = [
+            ['#007bff', '#00a0b0'], 
+            ['#ff4d4d', '#f9cb28'], 
+            ['#7928ca', '#4c88e8'], 
+            ['#4c88e8', '#4FE2B1'], 
+            ['#ff0080', '#ff7f00']  
+        ];
+        const randomIndex = Math.floor(Math.random() * colors.length);
+        const [color1, color2] = colors[randomIndex];
+        document.documentElement.style.setProperty('--color-1', color1);
+        document.documentElement.style.setProperty('--color-2', color2);
+
+        // 平滑滚动
+        function scrollToContent() {
+            document.getElementById('more-content').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // 自动更新时间逻辑
+        function formatDate(date) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}年${month}月${day}日`;
+        }
+        
+        // 设置当前时间
+        const today = new Date();
+        const dateString = formatDate(today);
+        
+        const curdateElement = document.getElementById('curdate');
+        if (curdateElement) {
+            curdateElement.textContent = dateString;
+        }
+    </script>
+</body>
+</html>
